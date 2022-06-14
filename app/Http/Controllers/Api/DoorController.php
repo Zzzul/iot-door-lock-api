@@ -31,25 +31,29 @@ class DoorController extends Controller
      */
     public function store(StoreDoorRequest $request)
     {
-        $latestDoor = Door::latest()->first();
+        switch ($request->type) {
+            case 'open':
+                $door = Door::create($request->validated());
 
-        $door = Door::create($request->validated());
+                return new DoorResource($door);
+                break;
+            default:
+                $latestDoor = Door::latest()->first();
+                $now = now();
+                $diff = Carbon::parse($latestDoor->open)->diff($now);
 
-        if (isset($door) && $latestDoor->closed == null) {
-            $now = now();
-            $diff = Carbon::parse($latestDoor->open)->diff($now);
+                $interval = "";
+                $interval .= $diff->d . " hari, ";
+                $interval .= $diff->h . " jam, ";
+                $interval .= $diff->i . " menit, ";
+                $interval .= $diff->s . " detik";
 
-            $interval = "";
-            $interval .= $diff->d . " hari, ";
-            $interval .= $diff->h . " jam, ";
-            $interval .= $diff->i . " menit, ";
-            $interval .= $diff->s . " detik";
+                // update waktu pintu ditutup(closed)
+                $latestDoor->update(['closed' => $now, 'interval' => $interval]);
 
-            // update waktu pintu ditutup(closed)
-            $latestDoor->update(['closed' => $now, 'interval' => $interval]);
+                return new DoorResource($latestDoor);
+                break;
         }
-
-        return new DoorResource($door);
     }
 
     /**

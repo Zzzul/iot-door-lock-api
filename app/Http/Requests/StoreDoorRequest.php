@@ -24,7 +24,9 @@ class StoreDoorRequest extends FormRequest
     public function rules()
     {
         return [
-            'open' => 'required',
+            'open' => 'required_if:type,open',
+            'closed' => 'required_if:type,closed',
+            'type' => 'required|in:open,closed',
         ];
     }
 }
