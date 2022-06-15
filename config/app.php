@@ -212,4 +212,5 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'api_token' => env('API_TOKEN', 'kgbI2lLqKVQNUMNFkg9kE6DaMDQmX'),
 ];

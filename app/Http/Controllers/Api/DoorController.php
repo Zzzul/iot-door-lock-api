@@ -7,6 +7,7 @@ use App\Models\Door;
 use App\Http\Requests\{StoreDoorRequest, UpdateDoorRequest};
 use App\Http\Resources\{DoorCollection, DoorResource};
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class DoorController extends Controller
@@ -18,7 +19,9 @@ class DoorController extends Controller
      */
     public function index()
     {
-        $doors = Door::orderByDesc('id')->limit(30)->get();
+        $doors = Cache::remember('doors', now()->addDay(), function () {
+            return Door::orderByDesc('id')->limit(10)->get();
+        });
 
         return new DoorCollection($doors);
     }
@@ -33,7 +36,7 @@ class DoorController extends Controller
     {
         switch ($request->type) {
             case 'open':
-                $door = Door::create($request->validated());
+                $door = Door::create(['open' => now()]);
 
                 return new DoorResource($door);
                 break;
@@ -43,9 +46,18 @@ class DoorController extends Controller
                 $diff = Carbon::parse($latestDoor->open)->diff($now);
 
                 $interval = "";
-                $interval .= $diff->d . " hari, ";
-                $interval .= $diff->h . " jam, ";
-                $interval .= $diff->i . " menit, ";
+                if($diff->d > 0){
+                    $interval .= $diff->d . " hari, ";
+                }
+
+                if($diff->h > 0){
+                    $interval .= $diff->h . " jam, ";
+                }
+
+                if($diff->i > 0){
+                    $interval .= $diff->i . " menit, ";
+                }
+
                 $interval .= $diff->s . " detik";
 
                 // update waktu pintu ditutup(closed)
