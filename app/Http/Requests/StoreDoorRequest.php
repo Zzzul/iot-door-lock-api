@@ -24,8 +24,7 @@ class StoreDoorRequest extends FormRequest
     public function rules()
     {
         return [
-            'api_token' => 'required|in:' . config('app.api_token'),
-            'type' => 'required|in:open,closed',
+            'type' => ['required', 'in:open,closed'],
         ];
     }
 }

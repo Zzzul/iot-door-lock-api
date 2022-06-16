@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Door;
-use App\Http\Requests\{StoreDoorRequest, UpdateDoorRequest};
+use App\Http\Requests\StoreDoorRequest;
 use App\Http\Resources\{DoorCollection, DoorResource};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\HttpFoundation\Response;
 
 class DoorController extends Controller
 {
@@ -66,43 +65,5 @@ class DoorController extends Controller
                 return new DoorResource($latestDoor);
                 break;
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Door  $door
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Door $door)
-    {
-        return new DoorResource($door);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Door  $door
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateDoorRequest $request, Door $door)
-    {
-        $door->update($request->validated());
-
-        return new DoorResource($door);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Door  $door
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Door $door)
-    {
-        $door->delete();
-
-        return response()->json(['message' => 'success'], Response::HTTP_NO_CONTENT);
     }
 }
