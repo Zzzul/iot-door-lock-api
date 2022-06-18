@@ -14,14 +14,12 @@ class Door extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['open', 'closed', 'interval'];
+    protected $fillable = ['open', 'closed', 'access', 'interval'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
-    protected $casts = ['open' => 'datetime', 'closed' => 'datetime', 'interval' => 'string', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
-
-
+    protected $casts = ['open' => 'datetime', 'access' => 'boolean', 'closed' => 'datetime', 'interval' => 'string'];
 }

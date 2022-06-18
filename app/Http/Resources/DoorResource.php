@@ -18,6 +18,7 @@ class DoorResource extends JsonResource
             'id' => $this->id,
             'open' => $this->open->format('d/m/Y H:i:s'),
             'closed' => $this->closed ? $this->closed->format('d/m/Y H:i:s') : null,
+            'access' => $this->access,
             'interval' => $this->interval
         ];
     }

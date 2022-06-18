@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('open');
             $table->dateTime('closed')->nullable();
+            $table->boolean('access');
             $table->string('interval', 50)->nullable();
             $table->timestamps();
         });
