@@ -40,20 +40,20 @@ class DoorController extends Controller
                 return new DoorResource($door);
                 break;
             default:
-                $latestDoor = Door::latest()->first();
+                $latestDoor = Door::orderByDesc('id')->first();
                 $now = now();
                 $diff = Carbon::parse($latestDoor->open)->diff($now);
 
                 $interval = "";
-                if($diff->d > 0){
+                if ($diff->d > 0) {
                     $interval .= $diff->d . " hari, ";
                 }
 
-                if($diff->h > 0){
+                if ($diff->h > 0) {
                     $interval .= $diff->h . " jam, ";
                 }
 
-                if($diff->i > 0){
+                if ($diff->i > 0) {
                     $interval .= $diff->i . " menit, ";
                 }
 
@@ -65,5 +65,14 @@ class DoorController extends Controller
                 return new DoorResource($latestDoor);
                 break;
         }
+    }
+
+    public function all()
+    {
+        $doors = Cache::remember('all_doors', now()->addDay(), function () {
+            return Door::orderByDesc('id')->get();
+        });
+
+        return new DoorCollection($doors);
     }
 }

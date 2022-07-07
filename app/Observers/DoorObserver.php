@@ -16,6 +16,7 @@ class DoorObserver
     public function created(Door $door)
     {
         Cache::forget('doors');
+        Cache::forget('all_doors');
     }
 
     /**
@@ -27,6 +28,7 @@ class DoorObserver
     public function updated(Door $door)
     {
         Cache::forget('doors');
+        Cache::forget('all_doors');
     }
 
     /**
@@ -38,5 +40,6 @@ class DoorObserver
     public function deleted(Door $door)
     {
         Cache::forget('doors');
+        Cache::forget('all_doors');
     }
 }
