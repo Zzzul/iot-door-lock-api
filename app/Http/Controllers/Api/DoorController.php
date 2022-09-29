@@ -35,7 +35,11 @@ class DoorController extends Controller
     {
         switch ($request->type) {
             case 'open':
-                $door = Door::create(['open' => now(), 'access' => $request->access]);
+                $door = Door::create([
+                    'open' => now(),
+                    'access' => $request->access,
+                    'user' => $request->user,
+                ]);
 
                 return new DoorResource($door);
                 break;
