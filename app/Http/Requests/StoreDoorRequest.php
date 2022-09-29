@@ -25,7 +25,8 @@ class StoreDoorRequest extends FormRequest
     {
         return [
             'type' => ['required', 'in:open,closed'],
-            'access' => ['required', 'boolean']
+            'access' => ['required', 'boolean'],
+            'user' => ['nullable']
         ];
     }
 }
