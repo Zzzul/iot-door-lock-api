@@ -17,7 +17,7 @@
 ## Setup
 1. Clone or download
 ```shell
-git clone https://github.com/Zzzul/generator
+git clone https://github.com/Zzzul/iot-door-lock-ap
 ```
 
 2. Install laravel dependency
